@@ -1,9 +1,21 @@
+# Virtual environments
+.venv/
+venv/
+
+# Python
 __pycache__/
 *.py[cod]
-.venv/
 .pytest_cache/
-data/
-results/*.png
-results/*.csv
-results/*.pt
 
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+
+# Generated datasets
+data/processed/
+*.npz
+
+# Local learning notes
+LEARNING_PLAN.md

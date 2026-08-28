@@ -15,6 +15,10 @@ import train_dmd as dmd_trainer
 # .\.venv\Scripts\Activate.ps1
 # $env:PYTHONPATH = "$PWD\src"
 # python scripts\train_dmd.py
+
+# source .venv/bin/activate
+# export PYTHONPATH="$PWD/src"
+
 def main() -> None:
     # Train the DMD model and get the learned matrix A and dataset
     A, dataset = dmd_trainer.train_dmd_model(200, 42, (-0.5, 0.5), (-0.5, 0.5), 50.0, 0.02)

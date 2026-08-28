@@ -3,7 +3,7 @@
 Beginner-friendly scientific machine-learning project for learning approximately
 linear latent representations of nonlinear dynamical systems.
 
-## Current milestone
+# Current milestone
 
 Milestone 1 is intentionally limited to a damped pendulum. Before building any
 machine-learning model, we will:
@@ -26,7 +26,7 @@ dtheta/dt = omega
 domega/dt = -(g/L) sin(theta) - b omega
 ```
 
-## Set up
+# Set up
 
 Open a terminal in this directory. On Windows PowerShell:
 
@@ -61,7 +61,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-## What to inspect first
+# What to inspect first
 
 Open `src/koopmanlab/systems/pendulum.py` and trace the following path:
 
@@ -76,7 +76,7 @@ Then change one parameter at a time:
 - Set `theta0=0.1`. Motion should resemble a linear oscillator.
 - Set `theta0=3.0`. Nonlinear behavior should be much more apparent.
 
-## Project roadmap
+# Project roadmap
 
 - Milestone 1: pendulum simulator and physical validation
 - Milestone 2: trajectory dataset and train/validation/test split
