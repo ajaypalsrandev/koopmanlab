@@ -10,7 +10,7 @@ import numpy as np
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
-from koopmanlab.systems.pendulum import (  # noqa: E402
+from data_driven_nonlinear_dynamics.systems.pendulum import (  # noqa: E402
     PendulumParameters,
     mechanical_energy,
     pendulum_rhs,

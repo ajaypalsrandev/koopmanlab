@@ -1,4 +1,4 @@
-"""Run the first KoopmanLab milestone and save its overview figure."""
+"""Run the pendulum milestone and save its overview figure."""
 
 from pathlib import Path
 import sys
@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
-from koopmanlab.systems.pendulum import (  # noqa: E402
+from data_driven_nonlinear_dynamics.systems.pendulum import (  # noqa: E402
     PendulumParameters,
     mechanical_energy,
     simulate_pendulum,

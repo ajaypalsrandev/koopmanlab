@@ -1,9 +1,10 @@
-# KoopmanLab
+# Data Driven Nonlinear Dynamics
 
-KoopmanLab is a beginner-friendly scientific machine-learning project focused on
-learning approximately linear latent dynamics for nonlinear systems. The first
-benchmark is a damped pendulum, which is simple enough to analyze physically but
-still rich enough to expose the limitations of linear models.
+Data Driven Nonlinear Dynamics is a beginner-friendly scientific machine-learning
+project focused on learning approximately linear latent dynamics for nonlinear
+systems. The first benchmark is a damped pendulum, which is simple enough to
+analyze physically but still rich enough to expose the limitations of linear
+models.
 
 The project is organized around a practical research workflow:
 
@@ -58,7 +59,7 @@ This is implemented in the system model and numerically integrated with SciPy.
 │   ├── train_dmd.py
 │   └── evaluate_dmd.py
 ├── src/
-│   └── koopmanlab/
+│   └── data_driven_nonlinear_dynamics/
 │       ├── data/
 │       │   └── generate_dataset.py
 │       ├── evaluation/
@@ -77,7 +78,7 @@ This is implemented in the system model and numerically integrated with SciPy.
 
 ### Pendulum simulation
 
-The core dynamics live in `src/koopmanlab/systems/pendulum.py`.
+The core dynamics live in `src/data_driven_nonlinear_dynamics/systems/pendulum.py`.
 
 - `PendulumParameters` defines the physical settings.
 - `pendulum_rhs` returns the first-order state derivative.
@@ -87,7 +88,7 @@ The core dynamics live in `src/koopmanlab/systems/pendulum.py`.
 ### Dataset construction
 
 The trajectory generation workflow is implemented in
-`src/koopmanlab/data/generate_dataset.py`.
+`src/data_driven_nonlinear_dynamics/data/generate_dataset.py`.
 
 - `create_trajectories` samples random initial conditions and simulates rollouts.
 - `create_transition_matrices` builds the DMD snapshot matrices `X` and `Y`.
@@ -95,7 +96,7 @@ The trajectory generation workflow is implemented in
 
 ### DMD model
 
-The linear dynamics baseline is implemented in `src/koopmanlab/models/dmd.py`.
+The linear dynamics baseline is implemented in `src/data_driven_nonlinear_dynamics/models/dmd.py`.
 
 - `fit_matrix(X, Y)` learns the matrix by solving the least-squares problem
   `Y ≈ A X` using the pseudoinverse.
@@ -105,7 +106,7 @@ The linear dynamics baseline is implemented in `src/koopmanlab/models/dmd.py`.
 ### Evaluation
 
 The metrics used for comparing true and predicted trajectories are in
-`src/koopmanlab/evaluation/metrics.py`.
+`src/data_driven_nonlinear_dynamics/evaluation/metrics.py`.
 
 - `mean_square_error` computes a global scalar error.
 - `error_by_time` measures the MSE per time step, which is useful for plotting

@@ -1,2 +1,0 @@
-"""KoopmanLab package."""
-

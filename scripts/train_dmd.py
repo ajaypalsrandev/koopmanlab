@@ -7,12 +7,12 @@ import numpy as np
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
-from koopmanlab.data.generate_dataset import (
+from data_driven_nonlinear_dynamics.data.generate_dataset import (  # noqa: E402
     create_trajectories,
     create_transition_matrices,
     split_trajectories,
 )
-from koopmanlab.models.dmd import fit_matrix
+from data_driven_nonlinear_dynamics.models.dmd import fit_matrix
 
 def train_dmd_model(
     num_trajectories: int = 100,

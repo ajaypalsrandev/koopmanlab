@@ -7,8 +7,8 @@ import numpy as np
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
-from koopmanlab.evaluation.metrics import error_by_time
-import koopmanlab.models.dmd as dmd_model
+from data_driven_nonlinear_dynamics.evaluation.metrics import error_by_time
+import data_driven_nonlinear_dynamics.models.dmd as dmd_model
 import train_dmd as dmd_trainer
 
 # Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
