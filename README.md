@@ -1,6 +1,6 @@
 # Data Driven Nonlinear Dynamics
 
-Data Driven Nonlinear Dynamics is a beginner-friendly scientific machine-learning
+Data Driven Nonlinear Dynamics is a scientific machine-learning
 project focused on learning approximately linear latent dynamics for nonlinear
 systems. The first benchmark is a damped pendulum, which is simple enough to
 analyze physically but still rich enough to expose the limitations of linear
@@ -66,9 +66,8 @@ This is implemented in the system model and numerically integrated with SciPy.
 │       │   └── metrics.py
 │       ├── models/
 │       │   └── dmd.py
-│       ├── systems/
-│       │   └── pendulum.py
-│       └── visualization/
+│       └── systems/
+│           └── pendulum.py
 ├── tests/
 │   └── test_pendulum.py
 └── .gitignore
@@ -142,7 +141,7 @@ This script:
 python scripts/evaluate_dmd.py
 ```
 
-This script fits a DMD matrix on validation data, rolls the model forward,
+This script fits a DMD matrix on training data and evaluates validation trajectories, rolls the model forward,
 compares true versus predicted trajectories, and saves a summary figure to
 `results/dmd_evaluation.png`.
 
