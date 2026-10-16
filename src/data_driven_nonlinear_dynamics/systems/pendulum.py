@@ -70,6 +70,7 @@ def simulate_pendulum(
 
     parameters = parameters or PendulumParameters()
     times = np.arange(0.0, final_time + 0.5 * time_step, time_step)
+    times = times[times <= final_time]
 
     solution = solve_ivp(
         fun=lambda t, x: pendulum_rhs(t, x, parameters),

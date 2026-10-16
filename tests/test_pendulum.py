@@ -59,6 +59,20 @@ class PendulumTests(unittest.TestCase):
         energy = mechanical_energy(states, parameters)
         self.assertLess(energy[-1], energy[0])
 
+    def test_nondivisible_time_step_stays_within_interval(self):
+        times, states = simulate_pendulum(
+            final_time=1.0,
+            time_step=0.26,
+        )
+
+        np.testing.assert_allclose(
+            times,
+            [0.0, 0.26, 0.52, 0.78],
+        )
+        self.assertTrue(np.all(times <= 1.0))
+        np.testing.assert_allclose(np.diff(times), 0.26)
+        self.assertEqual(states.shape, (4, 2))
+
 
 if __name__ == "__main__":
     unittest.main()

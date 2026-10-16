@@ -1,5 +1,6 @@
 from pathlib import Path
 import sys
+import json
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -21,8 +22,23 @@ import train_dmd as dmd_trainer
 
 def main() -> None:
     # Train the DMD model and get the learned matrix A and dataset
-    A1, dataset1 = dmd_trainer.train_dmd_model(200, 42, (-0.5, 0.5), (-0.5, 0.5), 10.0, 0.02)
-    A2, dataset2 = dmd_trainer.train_dmd_model(200, 42, (-2.5, 2.5), (-2.0, 2.0), 10.0, 0.02)
+    small_config = {
+        "num_trajectories": 200,
+        "seed": 44,
+        "theta_range": (-0.5, 0.5),
+        "omega_range": (-0.5, 0.5),
+        "final_time": 10.0,
+        "time_step": 0.02,
+    }
+
+    broad_config = {
+        **small_config,
+        "theta_range": (-2.5, 2.5),
+        "omega_range": (-2.0, 2.0),
+    }
+    
+    A1, dataset1 = dmd_trainer.train_dmd_model(**small_config)
+    A2, dataset2 = dmd_trainer.train_dmd_model(**broad_config)
     times1 = dataset1["times"]
     times2 = dataset2["times"]
 
@@ -49,16 +65,35 @@ def main() -> None:
         print("Persistence one-step MSE:",
             evaluation["persistence_one_step_mse"])
 
-    plot_trajectory_comparison(
-        times1,
-        evaluation1,
-        "dmd_evaluation_small_angle.png",
-    )
-    plot_trajectory_comparison(
-        times2,
-        evaluation2,
-        "dmd_evaluation_broad_motion.png",
-    )
+    benchmark_directory = PROJECT_ROOT / "docs" / "benchmarks" / "dmd"
+
+    experiments = [
+        ("small_angle", A1, dataset1, evaluation1, small_config),
+        ("broad_motion", A2, dataset2, evaluation2, broad_config),
+    ]
+
+    for name, A, dataset, evaluation, config in experiments:
+        output_directory = (
+            benchmark_directory / name / f"seed_{config['seed']}"
+        )
+
+        save_metrics(
+            A, dataset, evaluation, config, output_directory
+        )
+
+        for selection in ("representative", "worst"):
+            plot_trajectory_comparison(
+                dataset["times"],
+                evaluation,
+                output_directory / f"{selection}.png",
+                selection=selection,
+            )
+
+        plot_error_by_time(
+            dataset["times"],
+            evaluation,
+            output_directory / "error_by_time.png",
+        )
     
     print("Learned DMD matrix A:")
     print(A1)
@@ -128,9 +163,17 @@ def evaluate_split(A, trajectories):
             float(np.mean((truth - current) ** 2)),
     }
 
-def plot_trajectory_comparison(times, evaluation, output_filename):
+def plot_trajectory_comparison(times, evaluation, output_path, selection="representative"):
+        
+        
         errors = evaluation["rollout_mse_per_trajectory"]
-        index  = int(np.argmin(np.abs(errors - np.median(errors))))
+        
+        if selection == "representative":
+            index = int(np.argmin(np.abs(errors - np.median(errors))))
+        elif selection == "worst":
+            index = int(np.argmax(errors))
+        else:
+            raise ValueError(f"Unknown selection: {selection}")
     
         true_states = evaluation["true_states"][index]
         rollout_states = evaluation["rollout_states"][index]
@@ -147,7 +190,7 @@ def plot_trajectory_comparison(times, evaluation, output_filename):
         label="One-step prediction",
         )
         angle_ax.set(
-            title="Representative validation trajectory",
+            title=f"{selection.capitalize()} validation trajectory",
             xlabel="Time (s)",
             ylabel="Angle (rad)",
         )
@@ -157,14 +200,14 @@ def plot_trajectory_comparison(times, evaluation, output_filename):
         velocity_ax.plot(times, true_states[:, 1], label="True", color="tab:blue")
         velocity_ax.plot(times, rollout_states[:, 1], label="Rollout", color="tab:orange")
         velocity_ax.plot(times[1:], one_step_predictions[:, 1], label="One-step Prediction", color="tab:green")
-        velocity_ax.set(title="True vs Predicted Angular Velocities", xlabel="Time Step", ylabel="State")
+        velocity_ax.set(title="Angular Velocities (rad/s)", xlabel="Time Step", ylabel="State")
         velocity_ax.legend()
     
         phase_ax = axes[1, 0]
         phase_ax.plot(true_states[:, 0], true_states[:, 1], label="True", color="tab:blue")
         phase_ax.plot(rollout_states[:, 0], rollout_states[:, 1], label="Rollout", color="tab:orange")
         phase_ax.plot(one_step_predictions[:, 0], one_step_predictions[:, 1], label="One-step Prediction", color="tab:green")
-        phase_ax.set(title="Phase Portrait", xlabel="Angle", ylabel="Angular Velocity")
+        phase_ax.set(title="Phase Portrait", xlabel="Angle (rad)", ylabel="Angular Velocity (rad/s)")
         phase_ax.legend()
     
         error_ax = axes[1, 1]
@@ -173,12 +216,91 @@ def plot_trajectory_comparison(times, evaluation, output_filename):
         error_ax.set(title="Mean error across all validation trajectories", xlabel="Time (s)", ylabel="Mean state squared error")
         error_ax.legend()
     
-        results_directory = PROJECT_ROOT / "results"
-        results_directory.mkdir(parents=True, exist_ok=True)
-        output_path = results_directory / output_filename
-        plt.tight_layout()
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        figure.tight_layout()
         figure.savefig(output_path, dpi=180)
         plt.close(figure)
+        print(f"Saved figure: {output_path}")
+
+def plot_error_by_time(times, evaluation, output_path):
+    figure, axis = plt.subplots(figsize=(7, 4))
+
+    axis.plot(
+        times[1:],
+        evaluation["rollout_mse_by_time"],
+        label="Recursive rollout",
+    )
+    axis.plot(
+        times[1:],
+        evaluation["one_step_mse_by_time"],
+        label="One-step prediction",
+    )
+
+    axis.set(
+        title="Mean error across validation trajectories",
+        xlabel="Time (s)",
+        ylabel="Mean state squared error",
+    )
+    axis.legend()
+    axis.grid(alpha=0.25)
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    figure.tight_layout()
+    figure.savefig(output_path, dpi=180)
+    plt.close(figure)
+
+def save_metrics(A, dataset, evaluation, config, output_directory):
+    one_step_errors = evaluation["one_step_mse_per_trajectory"]
+    rollout_errors = evaluation["rollout_mse_per_trajectory"]
+    state_errors = evaluation["rollout_mse_by_state"]
+
+    representative_index = int(
+        np.argmin(np.abs(rollout_errors - np.median(rollout_errors)))
+    )
+    worst_index = int(np.argmax(rollout_errors))
+
+    summary = {
+        "model": "DMD",
+        "evaluated_split": "validation",
+        "config": config,
+        "split_sizes": {
+            split: len(dataset[split])
+            for split in ("train", "val", "test")
+        },
+        "metrics": {
+            "one_step_mse_mean": float(one_step_errors.mean()),
+            "rollout_mse_mean": float(rollout_errors.mean()),
+            "rollout_mse_median": float(np.median(rollout_errors)),
+            "rollout_mse_std_across_trajectories":
+                float(rollout_errors.std()),
+            "rollout_mse_max": float(rollout_errors.max()),
+            "rollout_angle_mse": float(state_errors[0]),
+            "rollout_angular_velocity_mse": float(state_errors[1]),
+            "persistence_one_step_mse":
+                float(evaluation["persistence_one_step_mse"]),
+            "spectral_radius":
+                float(np.max(np.abs(np.linalg.eigvals(A)))),
+        },
+        "selected_validation_indices": {
+            "representative": representative_index,
+            "worst": worst_index,
+        },
+        "rollout_mse_per_trajectory": rollout_errors.tolist(),
+        "learned_matrix": A.tolist(),
+    }
+
+    output_directory.mkdir(parents=True, exist_ok=True)
+    output_path = output_directory / "metrics.json"
+
+    output_path.write_text(
+        json.dumps(summary, indent=2, allow_nan=False),
+        encoding="utf-8",
+    )
+    print(f"Saved metrics: {output_path}")
+
+
+
+
 
 if __name__ == "__main__":
     main()

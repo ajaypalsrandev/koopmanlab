@@ -29,6 +29,15 @@ repository includes:
 In other words, the project is currently at the DMD-baseline stage, with the
 pendulum used as the benchmark system for evaluating linear forecasting methods.
 
+I have evaluated the DMD baseline on small-angle and broad-motion validation
+trajectories across three dataset seeds. It beats persistence on one-step
+prediction in both regimes, but broad-motion recursive rollouts accumulate
+substantial error. The next comparison is with nonlinear features through EDMD.
+Held-out test evaluation is still pending.
+
+See the [DMD baseline report](docs/DMD_BASELINE.md) for the setup, results,
+example predictions, and what I plan to test next.
+
 ## Physical model
 
 We represent the pendulum state as
@@ -141,9 +150,10 @@ This script:
 python scripts/evaluate_dmd.py
 ```
 
-This script fits a DMD matrix on training data and evaluates validation trajectories, rolls the model forward,
-compares true versus predicted trajectories, and saves a summary figure to
-`results/dmd_evaluation.png`.
+This script fits separate DMD matrices for small-angle and broad-motion data and
+evaluates all validation trajectories. It saves metrics, representative and
+worst-case predictions, and error curves under `docs/benchmarks/dmd/`, organized
+by regime and seed. It runs one seed at a time, as set in `small_config`.
 
 ### 4. Run the tests
 
@@ -173,7 +183,8 @@ The current codebase is aligned with the following roadmap:
 
 - Milestone 1: pendulum simulation and physical validation — complete
 - Milestone 2: trajectory dataset and train/validation/test split — complete
-- Milestone 3: DMD baseline and predictive evaluation — complete
+- Milestone 3: DMD baseline and validation evaluation — complete; test evaluation pending
+- Next comparison: EDMD with fixed nonlinear features
 - Milestone 4: one-step MLP baseline — next
 - Milestone 5: Koopman encoder, latent linear dynamics, and decoder — next
 - Milestone 6: multistep training and long-horizon evaluation — planned
