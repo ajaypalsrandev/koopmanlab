@@ -1,0 +1,46 @@
+{
+  "evaluated_split": "validation",
+  "config": {
+    "num_trajectories": 200,
+    "seed": 44,
+    "final_time": 10.0,
+    "time_step": 0.02,
+    "theta_range": [
+      -2.5,
+      2.5
+    ],
+    "omega_range": [
+      -2.0,
+      2.0
+    ]
+  },
+  "selection_basis": "EDMD rollout MSE; both models plotted on the same trajectory",
+  "selected_validation_indices": {
+    "representative": 3,
+    "worst": 27
+  },
+  "metrics": {
+    "DMD": {
+      "one_step_mse_mean": 0.000394098303731465,
+      "rollout_mse_mean": 2.585859116853299,
+      "rollout_mse_median": 1.2032642859125882,
+      "rollout_mse_max": 18.553611536709457,
+      "rollout_mse_std_across_trajectories": 3.9725760803088934,
+      "rollout_angle_mse": 0.6283160434423926,
+      "rollout_angular_velocity_mse": 4.543402190264206,
+      "persistence_one_step_mse": 0.009690928151710248,
+      "spectral_radius": 0.998902833358675
+    },
+    "EDMD": {
+      "one_step_mse_mean": 7.985681963205793e-07,
+      "rollout_mse_mean": 2.1384010955288217,
+      "rollout_mse_median": 1.3672294252280923,
+      "rollout_mse_max": 12.173690189801729,
+      "rollout_mse_std_across_trajectories": 2.599812882624292,
+      "rollout_angle_mse": 0.5322882918368311,
+      "rollout_angular_velocity_mse": 3.7445138992208125,
+      "persistence_one_step_mse": 0.009690928151710248,
+      "spectral_radius": 1.0000000000000007
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "evaluated_split": "validation",
+  "regimes": {
+    "small_angle": {
+      "DMD": {
+        "one_step_mse_mean": {
+          "mean": 3.807030473569638e-08,
+          "sample_std_across_seeds": 1.5666913543671353e-09
+        },
+        "rollout_mse_mean": {
+          "mean": 0.0003479941123743088,
+          "sample_std_across_seeds": 1.7018746319669383e-05
+        },
+        "rollout_angle_mse": {
+          "mean": 6.647462444096511e-05,
+          "sample_std_across_seeds": 3.4310538053829704e-06
+        },
+        "rollout_angular_velocity_mse": {
+          "mean": 0.0006295136003076525,
+          "sample_std_across_seeds": 3.0610628237828486e-05
+        }
+      },
+      "EDMD": {
+        "one_step_mse_mean": {
+          "mean": 1.3522732020469214e-10,
+          "sample_std_across_seeds": 5.104069951702855e-12
+        },
+        "rollout_mse_mean": {
+          "mean": 0.0003160063400641235,
+          "sample_std_across_seeds": 1.2622125482931204e-05
+        },
+        "rollout_angle_mse": {
+          "mean": 6.27195432659197e-05,
+          "sample_std_across_seeds": 2.57013240826397e-06
+        },
+        "rollout_angular_velocity_mse": {
+          "mean": 0.0005692931368623271,
+          "sample_std_across_seeds": 2.26822532777988e-05
+        }
+      }
+    },
+    "broad_motion": {
+      "DMD": {
+        "one_step_mse_mean": {
+          "mean": 0.00039784563619501916,
+          "sample_std_across_seeds": 2.0969522370626354e-05
+        },
+        "rollout_mse_mean": {
+          "mean": 2.6885909570209825,
+          "sample_std_across_seeds": 0.13022710454421907
+        },
+        "rollout_angle_mse": {
+          "mean": 0.655813811118183,
+          "sample_std_across_seeds": 0.03707524128541361
+        },
+        "rollout_angular_velocity_mse": {
+          "mean": 4.721368102923782,
+          "sample_std_across_seeds": 0.2234433772274145
+        }
+      },
+      "EDMD": {
+        "one_step_mse_mean": {
+          "mean": 7.623252808920795e-07,
+          "sample_std_across_seeds": 3.195970563210195e-08
+        },
+        "rollout_mse_mean": {
+          "mean": 2.33144754278999,
+          "sample_std_across_seeds": 0.2158273262722393
+        },
+        "rollout_angle_mse": {
+          "mean": 0.5790963670544383,
+          "sample_std_across_seeds": 0.0507135837657355
+        },
+        "rollout_angular_velocity_mse": {
+          "mean": 4.083798718525542,
+          "sample_std_across_seeds": 0.3809872066641444
+        }
+      }
+    }
+  }
+}

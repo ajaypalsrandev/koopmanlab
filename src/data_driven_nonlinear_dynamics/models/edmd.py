@@ -15,7 +15,7 @@ def fit_matrix(
     X: np.ndarray,
     Y: np.ndarray,
 ) -> np.ndarray:
-    """Fit a matrix K such that lifted Y ≈ K * lifted X.
+    """Fit a matrix K such that lifted_states(Y) ≈ K * lifted_states(X).
 
     Args:
         X: Current states with shape (2, N).

@@ -155,7 +155,19 @@ evaluates all validation trajectories. It saves metrics, representative and
 worst-case predictions, and error curves under `docs/benchmarks/dmd/`, organized
 by regime and seed. It runs one seed at a time, as set in `small_config`.
 
-### 4. Run the tests
+### 4. Compare DMD and EDMD
+
+```bash
+python scripts/evaluate_edmd.py
+```
+
+This compares both models on identical data for seeds 42, 43, and 44 in both
+regimes, using validation data only. Metrics, comparison figures, and a summary
+across seeds are saved under `docs/benchmarks/edmd/`. Full prediction archives
+are saved locally and ignored by Git. Use `--seeds 42` for a single-seed run.
+See the [evaluation guide](docs/EDMD_EVALUATION.md) for output details.
+
+### 5. Run the tests
 
 ```bash
 python -m unittest discover -s tests -v
