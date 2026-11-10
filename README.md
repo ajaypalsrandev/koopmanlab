@@ -167,7 +167,20 @@ across seeds are saved under `docs/benchmarks/edmd/`. Full prediction archives
 are saved locally and ignored by Git. Use `--seeds 42` for a single-seed run.
 See the [evaluation guide](docs/EDMD_EVALUATION.md) for output details.
 
-### 5. Run the tests
+### 5. Evaluate a saved MLP against the baselines
+
+```bash
+python scripts/evaluate_mlp.py
+```
+
+This loads the small-angle MLP checkpoint, recreates its dataset, and evaluates
+MLP, DMD, and EDMD on the same validation split. If the checkpoint is missing,
+first run `python scripts/train_mlp.py`. Comparison metrics, prediction plots,
+and training history are saved under `docs/benchmarks/mlp/`, in a folder specific
+to the checkpoint. See the [MLP evaluation guide](docs/MLP_EVALUATION.md) for
+custom checkpoint paths and output details.
+
+### 6. Run the tests
 
 ```bash
 python -m unittest discover -s tests -v
