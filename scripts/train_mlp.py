@@ -1,4 +1,6 @@
 
+import argparse
+from mlp_experiment import add_experiment_arguments, experiment_config, checkpoint_path
 from pathlib import Path
 import sys
 
@@ -115,19 +117,10 @@ def train_mlp_model(
     }
 
 def main() -> None:
-    config = {
-        "num_trajectories": 200,
-        "seed": 42,
-        "model_seed": 42,
-        "theta_range": (-0.5, 0.5),
-        "omega_range": (-0.5, 0.5),
-        "final_time": 10.0,
-        "time_step": 0.02,
-        "epochs": 5,
-        "batch_size": 32,
-        "learning_rate": 0.001,
-        "hidden_dim": 32,
-    }
+    parser = argparse.ArgumentParser(description="Train an MLP for a named pendulum experiment.")
+    add_experiment_arguments(parser)
+    args = parser.parse_args()
+    config = experiment_config(args)
 
     result = train_mlp_model(**config)
 
@@ -141,9 +134,8 @@ def main() -> None:
         "best_val_loss": result["best_val_loss"],
     }
 
-    output_directory = PROJECT_ROOT / "results" / "mlp" / "small_angle" / "seed_42"
-    output_directory.mkdir(parents=True, exist_ok=True)
-    output_path = output_directory / "best_model.pt"
+    output_path = checkpoint_path(PROJECT_ROOT, config)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     torch.save(checkpoint, output_path)
 
     print(f"Best epoch: {result['best_epoch']}")

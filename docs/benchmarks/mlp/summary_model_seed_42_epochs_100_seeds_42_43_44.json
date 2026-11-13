@@ -1,0 +1,497 @@
+{
+  "dataset_seeds": [
+    42,
+    43,
+    44
+  ],
+  "model_seed": 42,
+  "training_epochs": 100,
+  "evaluated_split": "validation",
+  "standard_deviation": "sample standard deviation across seed-level scores (ddof=1)",
+  "regimes": {
+    "small_angle": {
+      "shared_config": {
+        "num_trajectories": 200,
+        "model_seed": 42,
+        "theta_range": [
+          -0.5,
+          0.5
+        ],
+        "omega_range": [
+          -0.5,
+          0.5
+        ],
+        "final_time": 10.0,
+        "time_step": 0.02,
+        "epochs": 100,
+        "batch_size": 32,
+        "learning_rate": 0.001,
+        "hidden_dim": 32
+      },
+      "split_sizes": {
+        "train": 140,
+        "val": 30,
+        "test": 30
+      },
+      "sources": [
+        {
+          "dataset_seed": 42,
+          "comparison_file": "small_angle/dataset_seed_42/model_seed_42/epochs_100/checkpoint_6a860141d134/comparison.json",
+          "checkpoint_sha256": "6a860141d134fa4d2117479e6f646989614a2e00e1586e73c3fb921d882f7171",
+          "best_mlp_epoch": 25
+        },
+        {
+          "dataset_seed": 43,
+          "comparison_file": "small_angle/dataset_seed_43/model_seed_42/epochs_100/checkpoint_1bd90d8510fe/comparison.json",
+          "checkpoint_sha256": "1bd90d8510fe654c7f56e4ee4981f0185caafb94a21fb1df1db324084de7cefd",
+          "best_mlp_epoch": 32
+        },
+        {
+          "dataset_seed": 44,
+          "comparison_file": "small_angle/dataset_seed_44/model_seed_42/epochs_100/checkpoint_9b02d33f93b9/comparison.json",
+          "checkpoint_sha256": "9b02d33f93b9ea769af782340fa502cc1e3ce429bee5c4d9cfa8e299e2d4c09f",
+          "best_mlp_epoch": 56
+        }
+      ],
+      "models": {
+        "DMD": {
+          "one_step_mse_mean": {
+            "mean": 3.807030473569638e-08,
+            "sample_std_across_seeds": 1.5666913543671353e-09,
+            "values_by_seed_order": [
+              3.645642398248363e-08,
+              3.9585103491963416e-08,
+              3.81693867326421e-08
+            ]
+          },
+          "rollout_mse_mean": {
+            "mean": 0.0003479941123743089,
+            "sample_std_across_seeds": 1.7018746319669383e-05,
+            "values_by_seed_order": [
+              0.0003420701703450228,
+              0.0003671831567362473,
+              0.00033472901004165655
+            ]
+          },
+          "rollout_angle_mse": {
+            "mean": 6.647462444096511e-05,
+            "sample_std_across_seeds": 3.4310538053829704e-06,
+            "values_by_seed_order": [
+              6.510466887159994e-05,
+              7.037900380341133e-05,
+              6.394020064788406e-05
+            ]
+          },
+          "rollout_angular_velocity_mse": {
+            "mean": 0.0006295136003076526,
+            "sample_std_across_seeds": 3.0610628237828486e-05,
+            "values_by_seed_order": [
+              0.0006190356718184454,
+              0.0006639873096690831,
+              0.0006055178194354292
+            ]
+          },
+          "persistence_one_step_mse": {
+            "mean": 0.0006261686691317744,
+            "sample_std_across_seeds": 5.573964075387449e-05,
+            "values_by_seed_order": [
+              0.000616231137193851,
+              0.0005760661935530095,
+              0.0006862086766484627
+            ]
+          }
+        },
+        "EDMD": {
+          "one_step_mse_mean": {
+            "mean": 1.3522732020469214e-10,
+            "sample_std_across_seeds": 5.104069951702854e-12,
+            "values_by_seed_order": [
+              1.2944186987671046e-10,
+              1.371464163588858e-10,
+              1.3909367437848013e-10
+            ]
+          },
+          "rollout_mse_mean": {
+            "mean": 0.0003160063400641234,
+            "sample_std_across_seeds": 1.2622125482931204e-05,
+            "values_by_seed_order": [
+              0.0003174974550888064,
+              0.0003278166769322805,
+              0.0003027048881712834
+            ]
+          },
+          "rollout_angle_mse": {
+            "mean": 6.27195432659197e-05,
+            "sample_std_across_seeds": 2.57013240826397e-06,
+            "values_by_seed_order": [
+              6.279983714959763e-05,
+              6.524858788276056e-05,
+              6.01102047654009e-05
+            ]
+          },
+          "rollout_angular_velocity_mse": {
+            "mean": 0.0005692931368623271,
+            "sample_std_across_seeds": 2.2682253277798796e-05,
+            "values_by_seed_order": [
+              0.0005721950730280151,
+              0.0005903847659818003,
+              0.000545299571577166
+            ]
+          },
+          "persistence_one_step_mse": {
+            "mean": 0.0006261686691317744,
+            "sample_std_across_seeds": 5.573964075387449e-05,
+            "values_by_seed_order": [
+              0.000616231137193851,
+              0.0005760661935530095,
+              0.0006862086766484627
+            ]
+          }
+        },
+        "MLP": {
+          "one_step_mse_mean": {
+            "mean": 5.911094088786433e-08,
+            "sample_std_across_seeds": 2.1693200669910624e-08,
+            "values_by_seed_order": [
+              7.676035430631588e-08,
+              3.489244940057154e-08,
+              6.568001895670556e-08
+            ]
+          },
+          "rollout_mse_mean": {
+            "mean": 0.001468201580144671,
+            "sample_std_across_seeds": 0.0012173793707869933,
+            "values_by_seed_order": [
+              0.0010141680364625589,
+              0.0005430887202487713,
+              0.002847347983722683
+            ]
+          },
+          "rollout_angle_mse": {
+            "mean": 0.0002653885014333989,
+            "sample_std_across_seeds": 0.0002201250709750523,
+            "values_by_seed_order": [
+              0.0001881975852488112,
+              9.425504231180499e-05,
+              0.0005137128767395805
+            ]
+          },
+          "rollout_angular_velocity_mse": {
+            "mean": 0.002671014658855943,
+            "sample_std_across_seeds": 0.002214683674992827,
+            "values_by_seed_order": [
+              0.0018401384876763065,
+              0.0009919223981857373,
+              0.005180983090705785
+            ]
+          },
+          "persistence_one_step_mse": {
+            "mean": 0.0006261686691317744,
+            "sample_std_across_seeds": 5.573964075387449e-05,
+            "values_by_seed_order": [
+              0.000616231137193851,
+              0.0005760661935530095,
+              0.0006862086766484627
+            ]
+          }
+        }
+      },
+      "rankings_by_seed": {
+        "one_step_mse_mean": [
+          {
+            "dataset_seed": 42,
+            "models_best_to_worst": [
+              "EDMD",
+              "DMD",
+              "MLP"
+            ]
+          },
+          {
+            "dataset_seed": 43,
+            "models_best_to_worst": [
+              "EDMD",
+              "MLP",
+              "DMD"
+            ]
+          },
+          {
+            "dataset_seed": 44,
+            "models_best_to_worst": [
+              "EDMD",
+              "DMD",
+              "MLP"
+            ]
+          }
+        ],
+        "rollout_mse_mean": [
+          {
+            "dataset_seed": 42,
+            "models_best_to_worst": [
+              "EDMD",
+              "DMD",
+              "MLP"
+            ]
+          },
+          {
+            "dataset_seed": 43,
+            "models_best_to_worst": [
+              "EDMD",
+              "DMD",
+              "MLP"
+            ]
+          },
+          {
+            "dataset_seed": 44,
+            "models_best_to_worst": [
+              "EDMD",
+              "DMD",
+              "MLP"
+            ]
+          }
+        ]
+      }
+    },
+    "broad_motion": {
+      "shared_config": {
+        "num_trajectories": 200,
+        "model_seed": 42,
+        "theta_range": [
+          -2.5,
+          2.5
+        ],
+        "omega_range": [
+          -2.0,
+          2.0
+        ],
+        "final_time": 10.0,
+        "time_step": 0.02,
+        "epochs": 100,
+        "batch_size": 32,
+        "learning_rate": 0.001,
+        "hidden_dim": 32
+      },
+      "split_sizes": {
+        "train": 140,
+        "val": 30,
+        "test": 30
+      },
+      "sources": [
+        {
+          "dataset_seed": 42,
+          "comparison_file": "broad_motion/dataset_seed_42/model_seed_42/epochs_100/checkpoint_85e2da7c72f1/comparison.json",
+          "checkpoint_sha256": "85e2da7c72f12754fbdda338551ff8cfa99446d399af31465e2e54ba221298eb",
+          "best_mlp_epoch": 41
+        },
+        {
+          "dataset_seed": 43,
+          "comparison_file": "broad_motion/dataset_seed_43/model_seed_42/epochs_100/checkpoint_318b7ad80631/comparison.json",
+          "checkpoint_sha256": "318b7ad806311ccfb20ff907663484dda6fa5be77d189926c731d15442b01d83",
+          "best_mlp_epoch": 68
+        },
+        {
+          "dataset_seed": 44,
+          "comparison_file": "broad_motion/dataset_seed_44/model_seed_42/epochs_100/checkpoint_7908c0d3cb6e/comparison.json",
+          "checkpoint_sha256": "7908c0d3cb6e4872cae492d8b298f2e619e0a427af1087bee9d10588bd5da943",
+          "best_mlp_epoch": 35
+        }
+      ],
+      "models": {
+        "DMD": {
+          "one_step_mse_mean": {
+            "mean": 0.00039784563619501916,
+            "sample_std_across_seeds": 2.0969522370626354e-05,
+            "values_by_seed_order": [
+              0.00037900242541775135,
+              0.0004204361794358412,
+              0.000394098303731465
+            ]
+          },
+          "rollout_mse_mean": {
+            "mean": 2.6885909570209825,
+            "sample_std_across_seeds": 0.13022710454421907,
+            "values_by_seed_order": [
+              2.6448583728064277,
+              2.8350553814032207,
+              2.585859116853299
+            ]
+          },
+          "rollout_angle_mse": {
+            "mean": 0.6558138111181829,
+            "sample_std_across_seeds": 0.03707524128541361,
+            "values_by_seed_order": [
+              0.6411465358910703,
+              0.6979788540210861,
+              0.6283160434423926
+            ]
+          },
+          "rollout_angular_velocity_mse": {
+            "mean": 4.7213681029237815,
+            "sample_std_across_seeds": 0.2234433772274145,
+            "values_by_seed_order": [
+              4.648570209721785,
+              4.972131908785354,
+              4.543402190264206
+            ]
+          },
+          "persistence_one_step_mse": {
+            "mean": 0.008735812706389014,
+            "sample_std_across_seeds": 0.0009384194283799959,
+            "values_by_seed_order": [
+              0.008701478277501019,
+              0.007815031689955773,
+              0.009690928151710248
+            ]
+          }
+        },
+        "EDMD": {
+          "one_step_mse_mean": {
+            "mean": 7.623252808920795e-07,
+            "sample_std_across_seeds": 3.195970563210195e-08,
+            "values_by_seed_order": [
+              7.381821045674519e-07,
+              7.502255417882075e-07,
+              7.985681963205793e-07
+            ]
+          },
+          "rollout_mse_mean": {
+            "mean": 2.3314475427899906,
+            "sample_std_across_seeds": 0.2158273262722393,
+            "values_by_seed_order": [
+              2.2914744783182814,
+              2.564467054522868,
+              2.1384010955288217
+            ]
+          },
+          "rollout_angle_mse": {
+            "mean": 0.5790963670544383,
+            "sample_std_across_seeds": 0.0507135837657355,
+            "values_by_seed_order": [
+              0.5720271270387167,
+              0.6329736822877672,
+              0.5322882918368311
+            ]
+          },
+          "rollout_angular_velocity_mse": {
+            "mean": 4.083798718525542,
+            "sample_std_across_seeds": 0.3809872066641444,
+            "values_by_seed_order": [
+              4.010921829597845,
+              4.495960426757969,
+              3.7445138992208125
+            ]
+          },
+          "persistence_one_step_mse": {
+            "mean": 0.008735812706389014,
+            "sample_std_across_seeds": 0.0009384194283799959,
+            "values_by_seed_order": [
+              0.008701478277501019,
+              0.007815031689955773,
+              0.009690928151710248
+            ]
+          }
+        },
+        "MLP": {
+          "one_step_mse_mean": {
+            "mean": 7.83827961785401e-07,
+            "sample_std_across_seeds": 3.129511960497163e-07,
+            "values_by_seed_order": [
+              1.1449380415022228e-06,
+              6.150238305782762e-07,
+              5.91522013275704e-07
+            ]
+          },
+          "rollout_mse_mean": {
+            "mean": 0.3993197610611036,
+            "sample_std_across_seeds": 0.4740700772117475,
+            "values_by_seed_order": [
+              0.20660463319462355,
+              0.9393980679466052,
+              0.051956582042082124
+            ]
+          },
+          "rollout_angle_mse": {
+            "mean": 0.1004934207631816,
+            "sample_std_across_seeds": 0.12191609112351796,
+            "values_by_seed_order": [
+              0.04855620472983472,
+              0.23977763877189023,
+              0.01314641878781983
+            ]
+          },
+          "rollout_angular_velocity_mse": {
+            "mean": 0.6981461013590256,
+            "sample_std_across_seeds": 0.8262469832945487,
+            "values_by_seed_order": [
+              0.3646530616594124,
+              1.63901849712132,
+              0.09076674529634443
+            ]
+          },
+          "persistence_one_step_mse": {
+            "mean": 0.008735812706389014,
+            "sample_std_across_seeds": 0.0009384194283799959,
+            "values_by_seed_order": [
+              0.008701478277501019,
+              0.007815031689955773,
+              0.009690928151710248
+            ]
+          }
+        }
+      },
+      "rankings_by_seed": {
+        "one_step_mse_mean": [
+          {
+            "dataset_seed": 42,
+            "models_best_to_worst": [
+              "EDMD",
+              "MLP",
+              "DMD"
+            ]
+          },
+          {
+            "dataset_seed": 43,
+            "models_best_to_worst": [
+              "MLP",
+              "EDMD",
+              "DMD"
+            ]
+          },
+          {
+            "dataset_seed": 44,
+            "models_best_to_worst": [
+              "MLP",
+              "EDMD",
+              "DMD"
+            ]
+          }
+        ],
+        "rollout_mse_mean": [
+          {
+            "dataset_seed": 42,
+            "models_best_to_worst": [
+              "MLP",
+              "EDMD",
+              "DMD"
+            ]
+          },
+          {
+            "dataset_seed": 43,
+            "models_best_to_worst": [
+              "MLP",
+              "EDMD",
+              "DMD"
+            ]
+          },
+          {
+            "dataset_seed": 44,
+            "models_best_to_worst": [
+              "MLP",
+              "EDMD",
+              "DMD"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

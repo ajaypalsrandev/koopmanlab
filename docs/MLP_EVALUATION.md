@@ -1,17 +1,32 @@
 # Evaluating the saved MLP
 
-Run from the repository root with the project environment activated:
+Training and evaluation use the same experiment options. From the repository root,
+with the project environment activated:
 
 ```bash
-python scripts/evaluate_mlp.py
+python scripts/train_mlp.py --regime small_angle
+python scripts/evaluate_mlp.py --regime small_angle
+
+python scripts/train_mlp.py --regime broad_motion
+python scripts/evaluate_mlp.py --regime broad_motion
 ```
 
-The default checkpoint is `results/mlp/small_angle/seed_42/best_model.pt`.
-To evaluate another trained checkpoint or choose an output directory:
+Both default to `small_angle`, dataset seed 42, model seed 42, and 100 training
+epochs. Select another experiment with `--seed`, `--model-seed`, and `--epochs`;
+pass the same options to both scripts. Evaluation's `--epochs` identifies the
+training run; it does not train the model or select the final epoch's weights.
+The checkpoint contains the weights selected by validation loss.
+
+For example:
 
 ```bash
-python scripts/evaluate_mlp.py --checkpoint /path/to/best_model.pt --output-dir /path/to/output
+python scripts/train_mlp.py --regime broad_motion --seed 43 --model-seed 42 --epochs 100
+python scripts/evaluate_mlp.py --regime broad_motion --seed 43 --model-seed 42 --epochs 100
 ```
+
+You can also supply `--checkpoint /path/to/best_model.pt` and optionally
+`--output-dir /path/to/output`. An explicit checkpoint overrides experiment
+selection; its saved configuration determines the dataset and default output path.
 
 The script reads the dataset settings from the checkpoint and recreates the
 training/validation/test split. It fits DMD and EDMD on the training split and
@@ -26,9 +41,34 @@ initial state is excluded from rollout scoring.
 
 ## Saved outputs
 
-By default, results are under `docs/benchmarks/mlp/checkpoint_<hash>/`. The hash
-identifies the checkpoint contents, so a new trained checkpoint gets a separate
-folder. Re-evaluating the identical checkpoint replaces its evaluation outputs.
+The two output roots use the same experiment hierarchy:
+
+```text
+results/mlp/
+    broad_motion/dataset_seed_42/model_seed_42/epochs_100/
+        best_model.pt
+
+docs/benchmarks/mlp/
+    broad_motion/dataset_seed_42/model_seed_42/epochs_100/
+        checkpoint_<hash>/
+            comparison.json
+            dmd/
+            edmd/
+            mlp/
+            representative.png
+            worst.png
+            error_by_time.png
+            training_history.png
+```
+
+Small-angle runs use `small_angle` in place of `broad_motion`. The epoch directory
+records the training budget, not the selected checkpoint epoch. Training again
+with the same experiment options replaces `best_model.pt`; preserve a separate
+copy before rerunning if you need the old weights. Evaluation uses a checkpoint
+hash beneath the readable experiment directory to preserve different model results.
+Re-evaluating the same checkpoint replaces its evaluation outputs. Explicit output
+directories are used exactly as provided. Unrecognized initial-condition ranges
+from custom checkpoints are grouped under `custom`.
 
 - `comparison.json`: configuration, split sizes, checkpoint identity, selection
   indices, and scores for all three models.
@@ -49,7 +89,50 @@ state MSE combines angle and angular-velocity squared errors without rescaling,
 so separate state errors are reported as well. The MLP has no single learned
 transition matrix, and no matrix spectral radius is reported for it.
 
-The current five-epoch small-angle checkpoint is a workflow check, not a finished
-MLP benchmark. Evaluate longer training and additional seeds before drawing
-broader conclusions. Checkpoint files under `results/` are local and ignored;
-run `python scripts/train_mlp.py` to create the default checkpoint after cloning.
+## Results
+
+I compared all three models using dataset seeds 42, 43, and 44, keeping the MLP
+model seed at 42 and its training budget at 100 epochs. The five-epoch trial is
+not included in these averages.
+
+The Rollout MSEs are as follows:
+| Model | Small-angle MSE | Broad-motion MSE |
+|---|---:|---:|
+| DMD | 0.000348 ± 0.00001702 | 2.689 ± 0.1302 |
+| EDMD | 0.0003160 ± 0.00001262 | 2.331 ± 0.2158 |
+| MLP | 0.001468 ± 0.001217 | 0.3993 ± 0.4741 |
+
+The One-Step MSEs are as follows:
+| Model | Small-angle MSE | Broad-motion MSE |
+| DMD | 3.807e-08 ± 1.567e-09 | 0.000397 ± 2.0969522370626354e-05 |
+| EDMD | 1.352e-10 ±  5.104e-12 | 7.623e-07 ± 3.196e-08 |
+| MLP | 5.911e-08 ± 2.169e-08 | 7.838e-07 ± 3.130e-07 |
+
+Values are the mean ± sample standard deviation across the three seed-level
+scores. Each score averages over that run's 30 validation trajectories. This
+measures variation across sampled datasets, not variation across trajectories
+within a run or across different model initialization seeds.
+
+EDMD had the lowest rollout error in every small-angle run. The MLP had the
+lowest rollout error in every broad-motion run, but its results varied more
+across datasets: broad-motion rollout MSE ranged from about 0.052 to 0.939.
+The one-step ranking was less consistent. These results suggest that the MLP
+helps more with broad motion, while the simpler models remain competitive near
+equilibrium. Three seeds are still a limited comparison.
+
+The [generated summary](benchmarks/mlp/summary_model_seed_42_epochs_100_seeds_42_43_44.md)
+contains all one-step and rollout averages, separate angle and velocity errors,
+individual seed results, model rankings, and links to the source files.
+A matching JSON file stores the unrounded values.
+
+To regenerate the summary without retraining:
+
+```bash
+python scripts/summarize_mlp.py
+```
+
+The script requires one matching run per seed and regime and checks that the
+settings agree. It reports missing or duplicate runs rather than silently
+selecting a checkpoint. You can select a different comparison with `--seeds`,
+`--model-seed`, and `--epochs`; each selection gets its own summary files.
+

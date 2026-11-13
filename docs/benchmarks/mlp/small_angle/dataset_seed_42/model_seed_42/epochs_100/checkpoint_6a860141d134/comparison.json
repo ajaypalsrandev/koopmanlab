@@ -1,0 +1,68 @@
+{
+  "evaluated_split": "validation",
+  "config": {
+    "num_trajectories": 200,
+    "seed": 42,
+    "model_seed": 42,
+    "theta_range": [
+      -0.5,
+      0.5
+    ],
+    "omega_range": [
+      -0.5,
+      0.5
+    ],
+    "final_time": 10.0,
+    "time_step": 0.02,
+    "epochs": 100,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "hidden_dim": 32
+  },
+  "split_sizes": {
+    "train": 140,
+    "val": 30,
+    "test": 30
+  },
+  "checkpoint_sha256": "6a860141d134fa4d2117479e6f646989614a2e00e1586e73c3fb921d882f7171",
+  "best_epoch": 25,
+  "selection_basis": "EDMD rollout MSE; all three models use the same selected trajectories",
+  "selected_validation_indices": {
+    "representative": 17,
+    "worst": 8
+  },
+  "metrics": {
+    "DMD": {
+      "one_step_mse_mean": 3.645642398248363e-08,
+      "rollout_mse_mean": 0.0003420701703450228,
+      "rollout_mse_median": 0.00021712708142171516,
+      "rollout_mse_max": 0.002557661839245052,
+      "rollout_mse_std_across_trajectories": 0.0005121532574453422,
+      "rollout_angle_mse": 6.510466887159994e-05,
+      "rollout_angular_velocity_mse": 0.0006190356718184454,
+      "persistence_one_step_mse": 0.000616231137193851,
+      "spectral_radius": 0.9989973411006366
+    },
+    "EDMD": {
+      "one_step_mse_mean": 1.2944186987671046e-10,
+      "rollout_mse_mean": 0.0003174974550888064,
+      "rollout_mse_median": 0.00020253811024803714,
+      "rollout_mse_max": 0.002221035493710293,
+      "rollout_mse_std_across_trajectories": 0.000446690522413164,
+      "rollout_angle_mse": 6.279983714959763e-05,
+      "rollout_angular_velocity_mse": 0.0005721950730280151,
+      "persistence_one_step_mse": 0.000616231137193851,
+      "spectral_radius": 1.0000000000000215
+    },
+    "MLP": {
+      "one_step_mse_mean": 7.676035430631588e-08,
+      "rollout_mse_mean": 0.0010141680364625589,
+      "rollout_mse_median": 0.0009591768719346624,
+      "rollout_mse_max": 0.0032726490933653036,
+      "rollout_mse_std_across_trajectories": 0.0008014487693556924,
+      "rollout_angle_mse": 0.0001881975852488112,
+      "rollout_angular_velocity_mse": 0.0018401384876763065,
+      "persistence_one_step_mse": 0.000616231137193851
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "evaluated_split": "validation",
+  "config": {
+    "num_trajectories": 200,
+    "seed": 42,
+    "model_seed": 42,
+    "theta_range": [
+      -2.5,
+      2.5
+    ],
+    "omega_range": [
+      -2.0,
+      2.0
+    ],
+    "final_time": 10.0,
+    "time_step": 0.02,
+    "epochs": 100,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "hidden_dim": 32
+  },
+  "split_sizes": {
+    "train": 140,
+    "val": 30,
+    "test": 30
+  },
+  "checkpoint_sha256": "85e2da7c72f12754fbdda338551ff8cfa99446d399af31465e2e54ba221298eb",
+  "best_epoch": 41,
+  "selection_basis": "EDMD rollout MSE; all three models use the same selected trajectories",
+  "selected_validation_indices": {
+    "representative": 13,
+    "worst": 8
+  },
+  "metrics": {
+    "DMD": {
+      "one_step_mse_mean": 0.00037900242541775135,
+      "rollout_mse_mean": 2.6448583728064277,
+      "rollout_mse_median": 1.5028264781565253,
+      "rollout_mse_max": 18.243448885107586,
+      "rollout_mse_std_across_trajectories": 3.9186350931482066,
+      "rollout_angle_mse": 0.6411465358910703,
+      "rollout_angular_velocity_mse": 4.648570209721785,
+      "persistence_one_step_mse": 0.008701478277501019,
+      "spectral_radius": 0.9989283919067424
+    },
+    "EDMD": {
+      "one_step_mse_mean": 7.381821045674519e-07,
+      "rollout_mse_mean": 2.2914744783182814,
+      "rollout_mse_median": 1.3930670172771267,
+      "rollout_mse_max": 10.911881850089515,
+      "rollout_mse_std_across_trajectories": 2.6653103050033464,
+      "rollout_angle_mse": 0.5720271270387167,
+      "rollout_angular_velocity_mse": 4.010921829597845,
+      "persistence_one_step_mse": 0.008701478277501019,
+      "spectral_radius": 0.999999999999993
+    },
+    "MLP": {
+      "one_step_mse_mean": 1.1449380415022228e-06,
+      "rollout_mse_mean": 0.20660463319462355,
+      "rollout_mse_median": 0.044747563366585655,
+      "rollout_mse_max": 0.9463542335725574,
+      "rollout_mse_std_across_trajectories": 0.2878820417541562,
+      "rollout_angle_mse": 0.04855620472983472,
+      "rollout_angular_velocity_mse": 0.3646530616594124,
+      "persistence_one_step_mse": 0.008701478277501019
+    }
+  }
+}

@@ -167,18 +167,24 @@ across seeds are saved under `docs/benchmarks/edmd/`. Full prediction archives
 are saved locally and ignored by Git. Use `--seeds 42` for a single-seed run.
 See the [evaluation guide](docs/EDMD_EVALUATION.md) for output details.
 
-### 5. Evaluate a saved MLP against the baselines
+### 5. Train and evaluate an MLP against the baselines
 
 ```bash
-python scripts/evaluate_mlp.py
+python scripts/train_mlp.py --regime small_angle
+python scripts/evaluate_mlp.py --regime small_angle
 ```
 
-This loads the small-angle MLP checkpoint, recreates its dataset, and evaluates
-MLP, DMD, and EDMD on the same validation split. If the checkpoint is missing,
-first run `python scripts/train_mlp.py`. Comparison metrics, prediction plots,
-and training history are saved under `docs/benchmarks/mlp/`, in a folder specific
-to the checkpoint. See the [MLP evaluation guide](docs/MLP_EVALUATION.md) for
-custom checkpoint paths and output details.
+Use `--regime broad_motion` on both commands for the broader initial-condition
+ranges. Both scripts default to small-angle motion, dataset seed 42, model seed
+42, and 100 epochs. Use matching `--seed`, `--model-seed`, and `--epochs` options
+to select another experiment. Evaluation compares MLP, DMD, and EDMD on the same
+validation split without retraining the MLP.
+
+Checkpoints live under `results/mlp/`; evaluation artifacts live under
+`docs/benchmarks/mlp/`. Both are organized by regime, dataset seed, model seed,
+and training epochs. Evaluation adds a checkpoint identifier to preserve distinct
+models. See the [MLP evaluation guide](docs/MLP_EVALUATION.md) for the full layout,
+existing results, and custom checkpoint paths.
 
 ### 6. Run the tests
 

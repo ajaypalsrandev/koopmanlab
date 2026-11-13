@@ -1,0 +1,68 @@
+{
+  "evaluated_split": "validation",
+  "config": {
+    "num_trajectories": 200,
+    "seed": 44,
+    "model_seed": 42,
+    "epochs": 100,
+    "final_time": 10.0,
+    "time_step": 0.02,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "hidden_dim": 32,
+    "theta_range": [
+      -0.5,
+      0.5
+    ],
+    "omega_range": [
+      -0.5,
+      0.5
+    ]
+  },
+  "split_sizes": {
+    "train": 140,
+    "val": 30,
+    "test": 30
+  },
+  "checkpoint_sha256": "9b02d33f93b9ea769af782340fa502cc1e3ce429bee5c4d9cfa8e299e2d4c09f",
+  "best_epoch": 56,
+  "selection_basis": "EDMD rollout MSE; all three models use the same selected trajectories",
+  "selected_validation_indices": {
+    "representative": 0,
+    "worst": 27
+  },
+  "metrics": {
+    "DMD": {
+      "one_step_mse_mean": 3.81693867326421e-08,
+      "rollout_mse_mean": 0.00033472901004165655,
+      "rollout_mse_median": 0.0001817938095748744,
+      "rollout_mse_max": 0.0022535509329928293,
+      "rollout_mse_std_across_trajectories": 0.0005213230086713578,
+      "rollout_angle_mse": 6.394020064788406e-05,
+      "rollout_angular_velocity_mse": 0.0006055178194354292,
+      "persistence_one_step_mse": 0.0006862086766484627,
+      "spectral_radius": 0.9989970391087282
+    },
+    "EDMD": {
+      "one_step_mse_mean": 1.3909367437848013e-10,
+      "rollout_mse_mean": 0.0003027048881712834,
+      "rollout_mse_median": 0.000152701849229912,
+      "rollout_mse_max": 0.0018575252544945668,
+      "rollout_mse_std_across_trajectories": 0.000456491676421653,
+      "rollout_angle_mse": 6.01102047654009e-05,
+      "rollout_angular_velocity_mse": 0.000545299571577166,
+      "persistence_one_step_mse": 0.0006862086766484627,
+      "spectral_radius": 1.0000000000000038
+    },
+    "MLP": {
+      "one_step_mse_mean": 6.568001895670556e-08,
+      "rollout_mse_mean": 0.002847347983722683,
+      "rollout_mse_median": 0.00260887092794722,
+      "rollout_mse_max": 0.010319413855536417,
+      "rollout_mse_std_across_trajectories": 0.0026854652993879165,
+      "rollout_angle_mse": 0.0005137128767395805,
+      "rollout_angular_velocity_mse": 0.005180983090705785,
+      "persistence_one_step_mse": 0.0006862086766484627
+    }
+  }
+}

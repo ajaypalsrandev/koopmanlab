@@ -1,5 +1,9 @@
 """Evaluate a saved MLP against DMD and EDMD on the same validation data."""
 
+from mlp_experiment import (
+    add_experiment_arguments, experiment_config, checkpoint_path as default_checkpoint_path,
+    evaluation_path,
+)
 import argparse
 import hashlib
 from pathlib import Path
@@ -128,8 +132,7 @@ def run_evaluation(checkpoint_path, output_directory=None):
     # The content hash distinguishes checkpoints even when their filenames match.
     digest = hashlib.sha256(checkpoint_path.read_bytes()).hexdigest()
     if output_directory is None:
-        output_directory = (PROJECT_ROOT / "docs" / "benchmarks" / "mlp"
-                            / f"checkpoint_{digest[:12]}")
+        output_directory = evaluation_path(PROJECT_ROOT, config, digest)
     output_directory.mkdir(parents=True, exist_ok=True)
     metrics = {}
     for name in ("DMD", "EDMD"):
@@ -161,13 +164,15 @@ def run_evaluation(checkpoint_path, output_directory=None):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--checkpoint", type=Path,
-        default=PROJECT_ROOT / "results" / "mlp" / "small_angle" / "seed_42" / "best_model.pt",
-    )
+    add_experiment_arguments(parser)
+    parser.add_argument("--checkpoint", type=Path, default=None,
+                        help="Explicit checkpoint overrides experiment selection; saved config controls evaluation")
     parser.add_argument("--output-dir", type=Path, default=None)
     args = parser.parse_args()
-    run_evaluation(args.checkpoint, args.output_dir)
+    selected_checkpoint = args.checkpoint or default_checkpoint_path(
+        PROJECT_ROOT, experiment_config(args)
+    )
+    run_evaluation(selected_checkpoint, args.output_dir)
 
 
 if __name__ == "__main__":
