@@ -26,7 +26,6 @@ def evaluate_mlp_model(model, mean, std, trajectories):
 
     if trajectories.ndim != 3 or trajectories.shape[0] == 0 or trajectories.shape[1] < 2 or trajectories.shape[2] != 2:
         raise ValueError("trajectories must have shape (N, T, 2), with N > 0 and T >= 2")
-    truth = trajectories[:, 1:, :]
     one_step = np.stack([
         mlp.predict_one_step(model, trajectory[:-1].T, mean, std).T
         for trajectory in trajectories
@@ -35,6 +34,11 @@ def evaluate_mlp_model(model, mean, std, trajectories):
         mlp.rollout(model, trajectory[0], len(trajectory), mean, std).T
         for trajectory in trajectories
     ])
+    return score_predictions(trajectories, one_step, rollouts)
+
+
+def score_predictions(trajectories, one_step, rollouts):
+    truth = trajectories[:, 1:, :]
     if not all(np.isfinite(a).all() for a in (trajectories, one_step, rollouts)):
         raise ValueError("Non-finite states or predictions; inspect model stability")
     one_error = (truth - one_step) ** 2
@@ -57,7 +61,7 @@ def evaluate_mlp_model(model, mean, std, trajectories):
     
 
 
-def save_mlp_results(evaluation, checkpoint, checkpoint_path, times, split_sizes, directory):
+def save_mlp_results(evaluation, checkpoint, checkpoint_path, times, split_sizes, directory, model_name="MLP"):
     """Save physical-unit scores separately from normalized training losses."""
     errors = evaluation["rollout_mse_per_trajectory"]
     metrics = {
@@ -71,7 +75,7 @@ def save_mlp_results(evaluation, checkpoint, checkpoint_path, times, split_sizes
         "persistence_one_step_mse": evaluation["persistence_one_step_mse"],
     }
     summary = {
-        "model": "MLP", "evaluated_split": "validation",
+        "model": model_name, "evaluated_split": "validation",
         "config": checkpoint["config"], "split_sizes": split_sizes,
         "checkpoint_filename": checkpoint_path.name,
         "checkpoint_sha256": hashlib.sha256(checkpoint_path.read_bytes()).hexdigest(),

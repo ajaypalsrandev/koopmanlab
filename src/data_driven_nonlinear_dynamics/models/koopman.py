@@ -41,4 +41,11 @@ class KoopmanAutoencoder(nn.Module):
         reconstructed = self.decode(latent_next)
         return reconstructed
 
-    
+
+def load_checkpoint(path):
+    checkpoint = torch.load(path, map_location="cpu", weights_only=True)
+    config = checkpoint["config"]
+    model = KoopmanAutoencoder(config["hidden_dim"], config["latent_dim"])
+    model.load_state_dict(checkpoint["model_state_dict"])
+    model.eval()
+    return model, checkpoint

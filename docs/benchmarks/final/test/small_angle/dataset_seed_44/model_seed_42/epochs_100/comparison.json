@@ -1,0 +1,69 @@
+{
+  "regime": "small_angle",
+  "evaluated_split": "test",
+  "config": {
+    "num_trajectories": 200,
+    "seed": 44,
+    "model_seed": 42,
+    "epochs": 100,
+    "final_time": 10.0,
+    "time_step": 0.02,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "hidden_dim": 32,
+    "theta_range": [
+      -0.5,
+      0.5
+    ],
+    "omega_range": [
+      -0.5,
+      0.5
+    ]
+  },
+  "split_sizes": {
+    "train": 140,
+    "validation": 30,
+    "test": 30
+  },
+  "scored_shape": [
+    30,
+    501,
+    2
+  ],
+  "checkpoints": {
+    "MLP": {
+      "path": "results/mlp/small_angle/dataset_seed_44/model_seed_42/epochs_100/best_model.pt",
+      "sha256": "9b02d33f93b9ea769af782340fa502cc1e3ce429bee5c4d9cfa8e299e2d4c09f"
+    },
+    "Original Koopman": {
+      "path": "results/koopman/small_angle/dataset_seed_44/model_seed_42/epochs_100/best_model.pt",
+      "sha256": "238cee20ed5604f58fc42381e4d0d4eda48610affb884c4a5cd4bb82bf21f160"
+    },
+    "10-step Koopman": {
+      "path": "results/koopman/small_angle/dataset_seed_44/model_seed_42/epochs_100/rollout_horizon_10/best_model.pt",
+      "sha256": "e176871b938175083bd50520bf6de759daa67a39fc3f3496d3ca7d89c111f553"
+    }
+  },
+  "metrics": {
+    "DMD": {
+      "one_step_mse": 3.990882128071855e-08,
+      "rollout_mse": 0.0004095716327413501
+    },
+    "EDMD": {
+      "one_step_mse": 1.3815439955461364e-10,
+      "rollout_mse": 0.00039490024645967066
+    },
+    "MLP": {
+      "one_step_mse": 6.336669627564176e-08,
+      "rollout_mse": 0.0025866170614284203
+    },
+    "Original Koopman": {
+      "one_step_mse": 4.044422598557783e-07,
+      "rollout_mse": 0.0005158401470756788
+    },
+    "10-step Koopman": {
+      "one_step_mse": 5.38339526597766e-07,
+      "rollout_mse": 0.0007295733937021373
+    }
+  }
+}

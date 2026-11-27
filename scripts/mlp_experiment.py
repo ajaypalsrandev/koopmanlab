@@ -33,10 +33,10 @@ def experiment_path(config):
             / f"model_seed_{config['model_seed']}" / f"epochs_{config['epochs']}")
 
 
-def checkpoint_path(root, config):
-    return root / 'results' / 'mlp' / experiment_path(config) / 'best_model.pt'
+def checkpoint_path(root, config, model="mlp"):
+    return root / 'results' / model / experiment_path(config) / 'best_model.pt'
 
 
-def evaluation_path(root, config, digest):
-    return (root / 'docs' / 'benchmarks' / 'mlp' / experiment_path(config)
+def evaluation_path(root, config, digest, model="mlp"):
+    return (root / 'docs' / 'benchmarks' / model / experiment_path(config)
             / f'checkpoint_{digest[:12]}')
